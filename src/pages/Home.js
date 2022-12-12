@@ -12,18 +12,25 @@ import Slider from "../components/Slider";
 import SelectTime from "../components/SelectTime";
 
 const Home = () => {
-  const [city, setCity] = useState();
+  const [city, setCity] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [dateTake, setDateTake] = useState(new Date());
   const [dateReturn, setDateReturn] = useState(new Date());
+  const [data, setData] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    console.log(city);
     const fetchData = async () => {
-      const getConfig = await axios.post("http://localhost:4000/", {
+      const getOffersLocation = await axios.get("http://localhost:5000/", {
         params: {
           location: city,
         },
       });
+      console.log(getOffersLocation.data);
+      if (city.length > 3) {
+        setData(getOffersLocation.data);
+      }
     };
     fetchData();
   }, [city]);
@@ -59,7 +66,13 @@ const Home = () => {
             </div>
 
             <div>
-              <SearchBar city={city} setCity={setCity} />
+              <SearchBar
+                city={city}
+                setCity={setCity}
+                data={data}
+                visible={visible}
+                setVisible={setVisible}
+              />
               <button
                 style={{ background: "#191919", border: "non" }}
                 onclick={() => {

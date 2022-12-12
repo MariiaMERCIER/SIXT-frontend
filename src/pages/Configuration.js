@@ -5,7 +5,7 @@ const Configuration = () => {
   //   useEffect(() => {
   //     const fetchData = async () => {
   //       const getConfig = await axios.post(
-  //         "http://localhost:4000/offer/configuration"
+  //         "http://localhost:5000/offer/configuration"
   //         // {
   //         //   id: id,
   //         // }
