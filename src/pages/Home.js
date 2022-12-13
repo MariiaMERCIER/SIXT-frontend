@@ -1,9 +1,10 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 
 // import les components
 
@@ -13,11 +14,12 @@ import SelectTime from "../components/SelectTime";
 
 const Home = () => {
   const [city, setCity] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [dateTake, setDateTake] = useState(new Date());
-  const [dateReturn, setDateReturn] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
+
+  // On demande de faire la recherche de l'agence à chaque modification de "city" avec la possibility d'autocpmlête à partir de 3 characters
 
   useEffect(() => {
     console.log(city);
@@ -27,11 +29,12 @@ const Home = () => {
           location: city,
         },
       });
-      console.log(getOffersLocation.data);
+
       if (city.length > 3) {
         setData(getOffersLocation.data);
       }
     };
+
     fetchData();
   }, [city]);
 
@@ -73,18 +76,29 @@ const Home = () => {
                 visible={visible}
                 setVisible={setVisible}
               />
-              <button
-                style={{ background: "#191919", border: "non" }}
-                onclick={() => {
-                  <Calendar value={dateTake} onChange={setDateTake} />;
-                }}
-              >
-                <input value={dateTake} />
-              </button>
+
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                dateFormat="dd/MM/yyyy"
+                selectsStart
+                startDate={startDate}
+                minDate={new Date()}
+                endDate={endDate}
+                withPortal
+              />
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                dateFormat="dd/MM/yyyy"
+                selectsEnd
+                startDate={startDate}
+                minDate={startDate}
+                endDate={endDate}
+                withPortal
+              />
 
               <SelectTime />
-              <input value={dateReturn} placeholder="return" />
-              <Calendar value={dateReturn} onChange={setDateReturn} />
 
               <SelectTime />
             </div>

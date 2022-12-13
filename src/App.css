@@ -47,10 +47,14 @@ header div :not(img) {
   gap: calc(100% / 3);
 }
 
+.search {
+  width: 485px;
+}
+
 input {
   border: none;
   height: 40px;
-  width: 485px;
+
   border-bottom: 2px rgb(255, 255, 255) solid;
   background-color: #191919;
   color: white;

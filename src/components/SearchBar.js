@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const SearchBar = ({ setCity, city, data, visible, setVisible }) => {
   const searchClick = ({ title }) => {
     setCity(title);
@@ -9,30 +7,45 @@ const SearchBar = ({ setCity, city, data, visible, setVisible }) => {
   return (
     <>
       <input
+        className="search"
         type="search"
         placeholders="Taper votre ville..."
         value={city}
         onChange={(event) => {
+          // event.preventDefault();
           setCity(event.target.value);
-          setVisible(true);
+          if (city.length > 3) {
+            setVisible(true);
+          }
         }}
       />
 
-      {data.map((agency) => {
-        return (
-          visible && (
-            <div key={agency.id}>
-              <p
-                onClick={() => {
-                  searchClick(agency);
-                }}
-              >
-                {agency.title}
-              </p>
-            </div>
-          )
-        );
-      })}
+      {visible && (
+        <div style={{ backgroundColor: "white", height: 350, color: "black" }}>
+          <p>
+            <img
+              src={require("../assets/images/sixt-logo.png")}
+              alt="logo"
+              style={{ width: 30, height: "auto" }}
+            />
+            Agences
+          </p>
+
+          {data.map((agency) => {
+            return (
+              <div key={agency.id}>
+                <p
+                  onClick={() => {
+                    searchClick(agency);
+                  }}
+                >
+                  {agency.title}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };
